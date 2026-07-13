@@ -1,59 +1,104 @@
-import React from "react";
+import { forwardRef } from "react";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
+
 import styles from "./Button.module.css";
+import type { ButtonProps, ButtonAsButton, ButtonAsLink } from "./Button.types";
 
-type BaseProps = {
-  children: React.ReactNode;
-  color?: "primary" | "success";
-  buttonSize?: "small" | "medium" | "large";
-  className?: string;
-};
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    if (props.to !== undefined) {
+      const {
+        to,
+        variant = "primary",
+        size = "md",
+        loading = false,
+        fullWidth = false,
+        iconLeft,
+        iconRight,
+        className,
+        children,
+        ...linkProps
+      } = props as ButtonAsLink;
 
-type ButtonAsButton = BaseProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    to?: undefined;
-  };
+      const classes = clsx(
+        styles.button,
+        styles[variant],
+        styles[size],
+        {
+          [styles.loading]: loading,
+          [styles.fullWidth]: fullWidth,
+        },
+        className,
+      );
 
-type ButtonAsLink = BaseProps & {
-  to: string;
-} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      return (
+        <Link
+          to={to}
+          className={classes}
+          aria-disabled={loading}
+          {...linkProps}
+        >
+          {loading && <span className={styles.spinner} />}
 
-type ButtonProps = ButtonAsButton | ButtonAsLink;
+          {!loading && iconLeft}
 
-export const Button: React.FC<ButtonProps> = (props) => {
-  const {
-    children,
-    color = "primary",
-    buttonSize = "medium",
-    className = "",
-    ...rest
-  } = props;
+          <span>{children}</span>
 
-  const combinedClassName = `
-    ${styles.button}
-    ${styles[color]}
-    ${styles[buttonSize]}
-    ${className}
-  `;
+          {!loading && iconRight}
+        </Link>
+      );
+    }
 
-  if ("to" in props && props.to) {
-    return (
-      <Link
-        to={props.to}
-        className={combinedClassName}
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
-        {children}
-      </Link>
+    const {
+      variant = "primary",
+      size = "md",
+      loading = false,
+      fullWidth = false,
+      iconLeft,
+      iconRight,
+      className,
+      children,
+      disabled,
+      type = "button",
+      ...buttonProps
+    } = props as ButtonAsButton;
+
+    const classes = clsx(
+      styles.button,
+      styles[variant],
+      styles[size],
+      {
+        [styles.loading]: loading,
+        [styles.fullWidth]: fullWidth,
+      },
+      className,
     );
-  }
 
-  return (
-    <button
-      className={combinedClassName}
-      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-    >
-      {children}
-    </button>
-  );
-};
+    return (
+      <button
+        {...buttonProps}
+        ref={ref}
+        type={type}
+        disabled={disabled || loading}
+        aria-disabled={disabled || loading}
+        aria-busy={loading}
+        className={classes}
+      >
+        {loading && <span className={styles.spinner} />}
+
+        {!loading && iconLeft && (
+          <span className={styles.icon}>{iconLeft}</span>
+        )}
+
+        <span className={styles.content}>{children}</span>
+
+        {!loading && iconRight && (
+          <span className={styles.icon}>{iconRight}</span>
+        )}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";
