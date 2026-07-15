@@ -76,33 +76,32 @@
 }
 
 .secondary {
-  color: #1f2937;
-
-  background: #ffffff;
-
-  border: 1px solid #d1d5db;
+  color: #cbd5e1;
+  background: #1e293b;
+  border: 1px solid #334155;
 }
 
 .secondary:hover:not(:disabled) {
-  background: #f9fafb;
+  background: #334155;
 }
 
 .ghost {
-  color: #2563eb;
+  color: #cbd5e1;
   background: transparent;
+  border: 1px solid #334155;
 }
 
 .ghost:hover:not(:disabled) {
-  background: rgba(37, 99, 235, 0.08);
+  background: #1e293b;
 }
 
 .danger {
   color: white;
-  background: #dc2626;
+  background: #e24b4a;
 }
 
 .danger:hover:not(:disabled) {
-  background: #b91c1c;
+  background: #e23b3b;
 }
 
 /* ===========================
