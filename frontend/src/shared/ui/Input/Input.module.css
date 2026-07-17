@@ -1,0 +1,87 @@
+.inputWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input.error {
+  border-color: #ef4444;
+}
+
+.input.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.sm {
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.md {
+  font-size: 15px;
+  padding: 12px 16px;
+}
+
+.lg {
+  font-size: 16px;
+  padding: 14px 18px;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.errorText {
+  font-size: 13px;
+  color: #ef4444;
+  margin-top: 2px;
+}
+
+.adornment {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af; /* gray-400 */
+}
+
+/* Левый — только иконка, не перехватывает клики */
+.adornment.start {
+  left: 12px;
+  pointer-events: none;
+  padding-right: 40px;
+}
+
+/* Правый — может быть кнопкой, клики разрешены */
+.adornment.end {
+  right: 10px;
+  pointer-events: all;
+  padding-left: 40px;
+}
+
+.hint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-left: 16px;
+}
