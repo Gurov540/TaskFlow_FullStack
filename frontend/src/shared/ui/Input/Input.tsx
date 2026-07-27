@@ -5,7 +5,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   hint?: string;
   fullWidth?: boolean;
-  error?: string;
+  error?: boolean;
   color?: "primary" | "success";
   inputSize?: "sm" | "md" | "lg";
   startAdornment?: React.ReactNode;
