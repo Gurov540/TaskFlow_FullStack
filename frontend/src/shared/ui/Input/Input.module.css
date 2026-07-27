@@ -1,8 +1,17 @@
-.inputWrap {
-  position: relative;
+.field {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  /* Убираем width: 100% отсюда */
+}
+
+.inputWrap {
+  position: relative;
+  display: inline-flex; /* Меняем с flex на inline-flex */
+  flex-direction: column;
   gap: 6px;
+  /* Убираем width: 100% */
+  width: auto; /* Автоматическая ширина */
 }
 
 .input {
@@ -13,8 +22,52 @@
   transition: all 0.2s ease;
   outline: none;
   box-sizing: border-box;
+  width: auto; /* По умолчанию авто */
+  min-width: 200px; /* Минимальная ширина для красоты */
 }
 
+/* Только когда fullWidth=true */
+.input.fullWidth {
+  width: 100%;
+}
+
+/* Когда fullWidth=true, родитель тоже должен быть 100% */
+.field:has(.fullWidth),
+.inputWrap:has(.fullWidth) {
+  width: 100%;
+}
+
+/* Или более простой способ через JS - добавим класс к обертке */
+.inputWrap.fullWidth {
+  width: 100%;
+}
+
+/* Отступы для adornment */
+.input.hasStart {
+  padding-left: 44px;
+}
+
+.input.hasEnd {
+  padding-right: 44px;
+}
+
+.input.fullWidth.hasStart {
+  width: 100%;
+  padding-left: 44px;
+}
+
+.input.fullWidth.hasEnd {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.input.fullWidth.hasStart.hasEnd {
+  width: 100%;
+  padding-left: 44px;
+  padding-right: 44px;
+}
+
+/* Остальные стили... */
 .input:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -47,41 +100,74 @@
   padding: 14px 18px;
 }
 
-.fullWidth {
-  width: 100%;
+.sm.hasStart {
+  padding-left: 36px;
 }
 
-.errorText {
-  font-size: 13px;
-  color: #ef4444;
-  margin-top: 2px;
+.sm.hasEnd {
+  padding-right: 36px;
+}
+
+.md.hasStart {
+  padding-left: 44px;
+}
+
+.md.hasEnd {
+  padding-right: 44px;
+}
+
+.lg.hasStart {
+  padding-left: 48px;
+}
+
+.lg.hasEnd {
+  padding-right: 48px;
 }
 
 .adornment {
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af; /* gray-400 */
+  color: #9ca3af;
+  z-index: 1;
+  cursor: pointer;
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
 }
 
-/* Левый — только иконка, не перехватывает клики */
 .adornment.start {
   left: 12px;
-  pointer-events: none;
-  padding-right: 40px;
 }
 
-/* Правый — может быть кнопкой, клики разрешены */
 .adornment.end {
-  right: 10px;
-  pointer-events: all;
-  padding-left: 40px;
+  right: 12px;
+}
+
+.adornment:hover {
+  color: #6b7280;
 }
 
 .hint {
   font-size: 12px;
   color: #9ca3af;
   margin-left: 16px;
+}
+
+.hintError {
+  color: #ef4444;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.labelError {
+  color: #ef4444;
 }
