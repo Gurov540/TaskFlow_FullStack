@@ -2,13 +2,12 @@ import React from "react";
 
 export type InputSize = "sm" | "md" | "lg";
 
-export type InputProps = {
-  size?: InputSize;
-  loading?: boolean;
-  fullWidth?: boolean;
-  iconLeft?: React.ReactNode;
-  iconRight?: React.ReactNode;
-  className?: string;
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  children?: React.ReactNode;
-};
+  hint?: string;
+  fullWidth?: boolean;
+  error?: string | boolean;
+  inputSize?: InputSize;
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
+}
