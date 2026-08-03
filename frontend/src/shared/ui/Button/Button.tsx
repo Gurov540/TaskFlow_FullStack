@@ -18,6 +18,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         iconRight,
         className,
         children,
+        onClick,
         ...linkProps
       } = props as ButtonAsLink;
 
@@ -37,6 +38,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           to={to}
           className={classes}
           aria-disabled={loading}
+          onClick={(e) => {
+            if (loading) {
+              e.preventDefault();
+              return;
+            }
+            onClick?.(e);
+          }}
+          tabIndex={loading ? -1 : undefined}
           {...linkProps}
         >
           {loading && <span className={styles.spinner} />}
