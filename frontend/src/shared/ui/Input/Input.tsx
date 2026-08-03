@@ -1,16 +1,6 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useId } from "react";
 import styles from "./Input.module.css";
-
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  hint?: string;
-  fullWidth?: boolean;
-  error?: boolean;
-  color?: "primary" | "success";
-  inputSize?: "sm" | "md" | "lg";
-  startAdornment?: React.ReactNode;
-  endAdornment?: React.ReactNode;
-}
+import type { InputProps } from "./Input.type";
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -19,7 +9,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       hint,
       fullWidth = false,
       error,
-      color = "primary",
       inputSize = "md",
       startAdornment,
       endAdornment,
@@ -29,11 +18,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
-    const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
+    const reactId = useId();
+    const inputId =
+      id ??
+      (label
+        ? `${label.toLowerCase().replace(/\s+/g, "-")}-${reactId}`
+        : `input-${reactId}`);
+    const hintId = `${inputId}-hint`;
 
     const inputClasses = [
       styles.input,
-      styles[color],
       styles[inputSize],
       fullWidth && styles.fullWidth,
       error && styles.error,
@@ -54,13 +48,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <div className={styles.inputWrap}>
+        <div
+          className={`${styles.inputWrap} ${fullWidth ? styles.fullWidth : ""}`}
+        >
           {startAdornment && (
             <span className={`${styles.adornment} ${styles.start}`}>
               {startAdornment}
             </span>
           )}
-          <input ref={ref} id={inputId} className={inputClasses} {...props} />
+          <input
+            ref={ref}
+            id={inputId}
+            className={inputClasses}
+            aria-invalid={!!error}
+            aria-describedby={error ? hintId : hint ? hintId : undefined}
+            {...props}
+          />
           {endAdornment && (
             <span className={`${styles.adornment} ${styles.end}`}>
               {endAdornment}
@@ -68,9 +71,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error ? (
-          <span className={`${styles.hint} ${styles.hintError}`}>{error}</span>
+          typeof error === "string" ? (
+            <span id={hintId} className={`${styles.hint} ${styles.hintError}`}>
+              {error}
+            </span>
+          ) : (
+            <span id={hintId} className={`${styles.hint} ${styles.hintError}`}>
+              Ошибка
+            </span>
+          )
         ) : hint ? (
-          <span className={styles.hint}>{hint}</span>
+          <span id={hintId} className={styles.hint}>
+            {hint}
+          </span>
         ) : null}
       </div>
     );
