@@ -86,7 +86,7 @@ ol {
 
   /* Border */
 
-  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border: rgba(226, 232, 240, 0.8);
   --color-border-hover: rgba(15, 23, 42, 0.16);
 
   /* Status */
@@ -190,7 +190,7 @@ html.dark {
   --color-text-secondary: #8b949e;
   --color-text-muted: #6e7681;
 
-  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border: rgba(233, 235, 238, 0.08);
   --color-border-hover: rgba(255, 255, 255, 0.16);
 
   --color-success-bg: rgba(16, 185, 129, 0.12);
